@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Tank War Game</string>
+    <string name="app_name">Tank War Game</string>
+    <string name="main_title">Tank War Game</string>
+    <string name="new_game_label">New Game</string>
+    <string name="about_label">About</string>
+    <string name="help_label">Help</string>
+
+    <string name="about_title">About Tank War Game</string>
+    <string name="about_text">\
+        Our Tank War Game application is based on Android platform.The game features battle tanks of 
+        enemies and the objective of the game is to shoot and destroy these tanks. Player controls one 
+        tank to move, to hide behind walls, to shoot  enemy tanks (application controlled) to win the game. 
+        This game application provides an entertainment option for Android Mobile users. And It is a fun game to play! 
+    </string>
+    <string name="help_title">Help</string>
+    <string name="help_text">\
+        Our Tank War Game application is based on Android platform.The game features battle tanks of 
+        enemies and the objective of the game is to shoot and destroy these tanks. Player controls one 
+        tank to move, to hide behind walls, to shoot  enemy tanks (application controlled) to win the game. 
+        This game application provides an entertainment option for Android Mobile users. And It is a fun game to play! 
+    </string>
+</resources>
