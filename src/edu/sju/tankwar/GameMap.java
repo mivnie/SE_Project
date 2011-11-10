@@ -1,4 +1,4 @@
-package edu.sju.liu;
+package edu.sju.tankwar;
 
 public class GameMap{
 
