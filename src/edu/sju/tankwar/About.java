@@ -1,4 +1,4 @@
-package edu.sju.liu;
+package edu.sju.tankwar;
 
 import android.app.*;
 import android.os.*;
