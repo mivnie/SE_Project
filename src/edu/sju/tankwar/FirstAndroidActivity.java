@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.content.*;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.os.Bundle;
 
+/**
+ * @author team_f
+ *
+ */
 public class FirstAndroidActivity extends Activity implements OnClickListener {
     /** Called when the activity is first created. */
     @Override
@@ -36,7 +39,11 @@ public class FirstAndroidActivity extends Activity implements OnClickListener {
     		Intent i2 = new Intent(this,Help.class);
     		startActivity(i2);
     		break;	
-    		
+    	case R.id.new_button:
+    		Intent i3 = new Intent(FirstAndroidActivity.this,NewGame.class);
+    		startActivity(i3);
+    		//this.finish();
+    		break;
     	}
     	
     }
