@@ -9,16 +9,22 @@
 
     <string name="about_title">About Tank War Game</string>
     <string name="about_text">\
-        Our Tank War Game application is based on Android platform.The game features battle tanks of 
-        enemies and the objective of the game is to shoot and destroy these tanks. Player controls one 
-        tank to move, to hide behind walls, to shoot  enemy tanks (application controlled) to win the game. 
-        This game application provides an entertainment option for Android Mobile users. And It is a fun game to play! 
+       Tank War Game Version 1.0 \n \n
+
+           Team F : \n
+
+          Xiaohui Liu  \n   
+          Yuanhai Shi   \n
+          Suhao Qin  \n
+          Spoorthy Pusuloori \n 
     </string>
     <string name="help_title">Help</string>
     <string name="help_text">\
-        Our Tank War Game application is based on Android platform.The game features battle tanks of 
-        enemies and the objective of the game is to shoot and destroy these tanks. Player controls one 
-        tank to move, to hide behind walls, to shoot  enemy tanks (application controlled) to win the game. 
-        This game application provides an entertainment option for Android Mobile users. And It is a fun game to play! 
+    
+        1.Press New Game button to start the game \n 
+        2. Use the keyboard on the phone to control the tank. \n
+           To start to move the tank, press enter button \n
+           use up down left right button to move the tank \n
+           use enter button to shoot
     </string>
 </resources>
