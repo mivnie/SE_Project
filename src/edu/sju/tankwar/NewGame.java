@@ -10,6 +10,7 @@ import android.os.Bundle;
  * @author team_f
  * 
  */
+// activity when clicking the new button
 public class NewGame extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {

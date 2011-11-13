@@ -49,7 +49,7 @@ public class Barrier implements GameConstants {
 	 */
 	public void drawBarrier(Canvas canvas) {
 		p.setStyle(Paint.Style.FILL);
-		p.setColor(Color.BLUE);
+		p.setColor(Color.DKGRAY);
 		canvas.drawRect(inRect, p);
 		p.setColor(Color.WHITE);
 		p.setStyle(Paint.Style.STROKE);
