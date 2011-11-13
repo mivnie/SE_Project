@@ -11,57 +11,72 @@ import edu.sju.tankwar.math.*;
 
 /**
  * @author team_f
- *
+ * 
  */
-public class Shell implements GameConstants{
-	public  int radius=2;
-	
-	public Point centerPoint;
-	
+public class Shell implements GameConstants {
+
+	public int radius = 2;// radius for the circle of the shell image
+
+	public Point centerPoint;// center of the shell
+
 	private Paint paint;
-	
-	public int direction;
-	
-	private int speed=UNIT;
-	
-	public int flag=0;//炮弹属性，与坦克属性一致
-	
-	public  Shell(){
-		paint=new Paint();
+
+	public int direction;// direction of shell
+
+	private int speed = UNIT;// speed
+
+	public int flag = 0;
+
+	public Shell() {
+		paint = new Paint();
 		paint.setColor(Color.GRAY);
 	}
-	public void setCenterPoint(Point p){
-		centerPoint=new Point(p.getX(), p.getY());
+
+	public void setCenterPoint(Point p) {
+		centerPoint = new Point(p.getX(), p.getY());
 	}
 
-	public void drawShell(Canvas canvas){
-		canvas.drawCircle(centerPoint.x, centerPoint.y, radius, paint);
+	public void drawShell(Canvas canvas) {
+		canvas.drawCircle(centerPoint.x, centerPoint.y, radius, paint);// draw a
+																		// shell
+																		// on
+																		// the
+																		// canvas
 	}
-	public void move(){
+
+	/**
+	 * move a shell,by changing its centerpoint
+	 */
+	public void move() {
 		switch (direction) {
 		case LEFT:
-			centerPoint.setX(centerPoint.getX()-speed);
+			centerPoint.setX(centerPoint.getX() - speed);
 			break;
 		case UP:
-			centerPoint.setY(centerPoint.getY()-speed);
+			centerPoint.setY(centerPoint.getY() - speed);
 			break;
 		case RIGHT:
-			centerPoint.setX(centerPoint.getX()+speed);
+			centerPoint.setX(centerPoint.getX() + speed);
 			break;
 		case DOWN:
-			centerPoint.setY(centerPoint.getY()+speed);
+			centerPoint.setY(centerPoint.getY() + speed);
 			break;
 		default:
 			break;
 		}
 	}
-	public Rect getFillRect(){
-		return new Rect(centerPoint.getX()-radius,centerPoint.getY()-radius,centerPoint.getX()+radius,centerPoint.getY()+radius);
+
+	public Rect getFillRect() {
+		return new Rect(centerPoint.getX() - radius, centerPoint.getY()
+				- radius, centerPoint.getX() + radius, centerPoint.getY()
+				+ radius);
 	}
-	public int getFlag(){
+
+	public int getFlag() {
 		return flag;
 	}
-	public Point getPoint(){
+
+	public Point getPoint() {
 		return centerPoint;
 	}
 }

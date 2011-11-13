@@ -11,39 +11,43 @@ import android.graphics.Rect;
 
 /**
  * @author team_f
- *
+ * 
  */
 public class Barrier implements GameConstants {
 
 	private Paint p;
-	
+
 	private Rect inRect;
-	
+
 	private Rect outRect;
-	
+
 	private int r;
-	
+
 	private int c;
-	
+
 	/**
 	 * 
 	 */
-	public Barrier(){
-		// TODO Auto-generated constructor stub
+	public Barrier() {
 	}
-	
+
 	/**
 	 * 
 	 */
 	public Barrier(int r, int c) {
-		this.r=r;
-		this.c=c;
-		p=new Paint();
-		inRect=new Rect(c*UNIT+1, r*UNIT+1, (c+1)*UNIT-1, (r+1)*UNIT-1);
-		outRect=new Rect(c*UNIT, r*UNIT, (c+1)*UNIT, (r+1)*UNIT);
+		this.r = r;
+		this.c = c;
+		p = new Paint();
+		inRect = new Rect(c * UNIT + 1, r * UNIT + 1, (c + 1) * UNIT - 1,
+				(r + 1) * UNIT - 1);
+		outRect = new Rect(c * UNIT, r * UNIT, (c + 1) * UNIT, (r + 1) * UNIT);
 	}
-	
-	public void drawBarrier(Canvas canvas){
+
+	/**
+	 * @param canvas
+	 *            draw a barrier on the canvas
+	 */
+	public void drawBarrier(Canvas canvas) {
 		p.setStyle(Paint.Style.FILL);
 		p.setColor(Color.YELLOW);
 		canvas.drawRect(inRect, p);
@@ -51,11 +55,10 @@ public class Barrier implements GameConstants {
 		p.setStyle(Paint.Style.STROKE);
 		canvas.drawRect(outRect, p);
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
-		// TODO Auto-generated method stub
-		Barrier barrier=(Barrier) o;
-		return this.r==barrier.r && this.c==barrier.c;
+		Barrier barrier = (Barrier) o;
+		return this.r == barrier.r && this.c == barrier.c;
 	}
 }

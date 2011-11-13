@@ -1,1 +1,2 @@
-This is readme!
+Tank war game is an implementation of the famous Tank war game "Battle zone", which was 
+introduced in the 1980's. Battle zone is a game that attracted millions of fans from different parts of the world.
