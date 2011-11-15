@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.sju.tankwar;
 
 import edu.sju.tankwar.math.GameConstants;
@@ -12,50 +9,60 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 
 /**
+ * @file Shell.java
+ * @brief shell in the game
  * @author team_f
- * 
+ * The team name Team F
+ * The principal author's name : Yuanhai Shi
+ * Acknowledgment of help from other team members, by name: n/a
+ * @version 1.0
  */
 public class Tank implements GameConstants {
-
-	private Point centerPoint;// center of the tank image
-
-	private Point gun = new Point();// gun of tank
-
+	
+	/** center of the tank image */
+	private Point centerPoint; 
+	/** gun of tank */
+	private Point gun = new Point();
+	/** speed of tank */
 	private int speed = UNIT;
-
-	private int flag = MYTANK;// mytank or enemy
-
+	/** flag,mytank or enemy */
+	private int flag = MYTANK;
+	/** screen height */
 	private int screenHeight;
-
+	/** screen width */
 	private int screenWidth;
-
-	private Bitmap tankBmp;// source image
-
+	/** source image */
+	private Bitmap tankBmp;
+	/** direction */
 	private int direction = UP;
-
+	/** matrix */
 	public Matrix matrix = new Matrix();
-
+	/** last run Time */
 	private long lastTrunTime;
-
-	private int column;// column of the tank image on the canvas
-	private int row;// column of the tank image on the canvas
+	/** column of the tank image on the canvas */
+	private int column;
+	/** column of the tank image on the canvas */
+	private int row;
 
 	/**
-	 * 
+	 * non-param constructor
 	 */
 	public Tank() {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * 
+	 * constructor
+	 * @param p centerPoint of tank
 	 */
 	public Tank(Point p) {
 		this.centerPoint = p;
 	}
 
 	/**
-	 * 
+	 * constructor with resource,flag
+	 * @param tankDrawable image resource
+	 * @param flag flag of tank
 	 */
 	public Tank(BitmapDrawable tankDrawable, int flag) {
 		// TODO change the centerpoint when create a tank, this indicates the
@@ -70,7 +77,13 @@ public class Tank implements GameConstants {
 	}
 
 	/**
-	 * 
+	 * constructor with additional parameters
+	 * @param tankDrawable image resource
+	 * @param p center point
+	 * @param flag flag of tank
+	 * @param direction direction
+	 * @param h height
+	 * @param w width
 	 */
 	public Tank(BitmapDrawable tankDrawable, Point p, int flag, int direction,
 			int h, int w) {
@@ -90,14 +103,16 @@ public class Tank implements GameConstants {
 	}
 
 	/**
-	 * 
+	 * set screen height
+	 * @param h
 	 */
 	public void setScreenHeight(int h) {
 		screenHeight = h;
 	}
 
 	/**
-	 * 
+	 * set screen width
+	 * @param w
 	 */
 	public void setScreenWidth(int w) {
 		screenWidth = w;
@@ -142,6 +157,7 @@ public class Tank implements GameConstants {
 
 	/**
 	 * modify the status of the map
+	 * @param status status of map
 	 */
 	private void modifyMapStatus(int status) {
 		int bC = centerPoint.getX() / UNIT;
@@ -163,6 +179,7 @@ public class Tank implements GameConstants {
 
 	/**
 	 * draw a tank on the canvas
+	 * @param canvas of game
 	 */
 	public void drawTank(Canvas canvas) {
 		canvas.drawBitmap(tankBmp, centerPoint.x, centerPoint.y, null);
@@ -176,7 +193,7 @@ public class Tank implements GameConstants {
 	}
 
 	/**
-	 * 
+	 * tank move up
 	 */
 	public void moveUp() {
 		matrix.reset();
@@ -192,7 +209,7 @@ public class Tank implements GameConstants {
 	}
 
 	/**
-	 * 
+	 * tank move down
 	 */
 	public void moveDown() {
 		matrix.reset();
@@ -208,7 +225,7 @@ public class Tank implements GameConstants {
 	}
 
 	/**
-	 * 
+	 * tank move left
 	 */
 	public void moveLeft() {
 		matrix.reset();
@@ -224,7 +241,7 @@ public class Tank implements GameConstants {
 	}
 
 	/**
-	 * 
+	 * tank move right
 	 */
 	public void moveRight() {
 		matrix.reset();
@@ -240,7 +257,7 @@ public class Tank implements GameConstants {
 	}
 
 	/**
-	 * 
+	 * move the tank
 	 */
 	public void move() {
 		if (direction == UP) {
@@ -255,7 +272,8 @@ public class Tank implements GameConstants {
 	}
 
 	/**
-	 * fire
+	 * fire a shell
+	 * @return shell
 	 */
 	public Shell fire() {
 		Shell shell = GameFactory.createShells();
@@ -266,7 +284,8 @@ public class Tank implements GameConstants {
 	}
 
 	/**
-	 * 
+	 * get filled rectangle
+	 * @return rectangle
 	 */
 	public Rect getFillRect() {
 		return new Rect(centerPoint.getX(), centerPoint.getY(),
@@ -275,7 +294,9 @@ public class Tank implements GameConstants {
 	}
 
 	/**
-	 * 
+	 * tank is hit by a shell
+	 * @param s shell
+	 * @param s if hitted or not
 	 */
 	public boolean hit(Shell s) {
 		if (s.getFlag() == flag) {
@@ -289,7 +310,8 @@ public class Tank implements GameConstants {
 	}
 
 	/**
-	 * judge if the tank can move,then change its position by reset its position
+	 * judge if the tank can move,then change its position by reset its position'
+	 * @param if can move
 	 */
 	private boolean canMove() {
 		if (System.currentTimeMillis() - lastTrunTime < 300) {// move time is

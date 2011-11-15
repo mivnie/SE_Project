@@ -7,11 +7,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 /**
- * @author team_f
- * 
+ * @file FirstAndroidActivity.java
+ * @brief activity for first launched view
+ * @author 
+ *	The team name Team F
+    The principal author's name : Xiaohui Liu
+    Acknowledgment of help from other team members, by name: n/a
+ * @version 1.0 
  */
+
 public class FirstAndroidActivity extends Activity implements OnClickListener {
-	/** Called when the activity is first created. */
+	/** 
+	 * @param savedInstanceState savedInstanceState
+	 * Called when the activity is first created. 
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,7 +36,11 @@ public class FirstAndroidActivity extends Activity implements OnClickListener {
 		helpButton.setOnClickListener(this);
 
 	}
-    // method to invoke click action
+	
+    /** 
+	 * method to invoke click action
+	 * @param v view
+	 */
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.about_button:   // when clicking about button

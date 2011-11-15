@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.sju.tankwar;
 
 import java.util.ArrayList;
@@ -17,28 +14,43 @@ import android.view.View;
 import edu.sju.tankwar.math.*;
 
 /**
- * @author team_f
- * 
+ * @file GameView.java
+ * @brief custom view for game main view
+ * The team name Team F
+ * The principal author's name : n/a
+ * Acknowledgment of help from other team members, by name: n/a
+ * @version 1.0
  */
 public class GameView extends View implements GameConstants {
-
-	private static int BASE_X = 160;// position of base
+	/** x,position of base */
+	private static int BASE_X = 160;
+	/** y,position of base */
 	private static int BASE_Y = 340;
-	protected int height;// height of the view
-	protected int width;// width of the view
-	private Bitmap base;// image source of the base
-	protected List<Shell> shellsList = new ArrayList<Shell>();// list of shells
-	protected List<Tank> tankList = new ArrayList<Tank>();// list of tanks
-	private List<Barrier> barriersList = new ArrayList<Barrier>();// list of
-																	// barriers
-	public static int map[][];// 2D matrix.represents the point on the
-								// canvas.status:
-								// 0:free£¬1:tank£¬2:barrier£¬3:base.
-	private int row;// row on the canvas
-	private int column;// column
-	public Tank myTank;// mytank object
-	private String gameStatus = "STOP";// game status.
+	/** height of the view */
+	protected int height; 
+	/** width of the view */
+	protected int width;
+	/** image source of the base */
+	private Bitmap base;
+	/** list of shells */
+	protected List<Shell> shellsList = new ArrayList<Shell>();
+	/** list of tanks */
+	protected List<Tank> tankList = new ArrayList<Tank>();
+	/** list of barriers */
+	private List<Barrier> barriersList = new ArrayList<Barrier>();
+	/** 2D matrix.represents the point on the canvas.status:0:free£¬1:tank£¬2:barrier£¬3:base.*/																
+	public static int map[][];
+	/** row on the canvas */
+	private int row;
+	/** column on the canvas */
+	private int column;
+	/** mytank object */
+	public Tank myTank; 
+	/** game status. */
+	private String gameStatus = "STOP";
+	/** gameHandler */
 	private Handler gameHandler = new Handler();
+	/** main draw thread */
 	private Runnable drawThread = new Runnable() {
 		@Override
 		public void run() {
@@ -48,6 +60,7 @@ public class GameView extends View implements GameConstants {
 	};
 
 	/**
+	 * constructor for GameView
 	 * @param context
 	 */
 	public GameView(Context context) {
@@ -57,7 +70,9 @@ public class GameView extends View implements GameConstants {
 	}
 
 	/**
-	 * 
+	 * constructor for GameView with attrs
+	 * @param context context
+	 * @attrs attributes attributes
 	 */
 	public GameView(Context context, AttributeSet attrs) {
 		// TODO Auto-generated constructor stub
@@ -69,6 +84,7 @@ public class GameView extends View implements GameConstants {
 
 	/**
 	 * override onDraw method which handles all the drawing operations
+	 * @param cavas for game drawing
 	 */
 	@Override
 	protected void onDraw(Canvas canvas) {
@@ -110,7 +126,6 @@ public class GameView extends View implements GameConstants {
 		}
 		// init the map
 		// TODO implement the Map class,with all map operation within it.
-		
 		for (int i = 5; i < 17; i++) {
 			for (int j = 2; j < 5; j++) {
 				if (map[i][j] == 2)
@@ -230,7 +245,11 @@ public class GameView extends View implements GameConstants {
 	}
 
 	/**
-	 * override onSize method,will be called when size of the view is changed
+	 *	override onSize method,will be called when size of the view is changed
+	 *	@param w width
+	 *	@param h height
+	 *	@param oldw old width
+	 *	@param oldh old height
 	 */
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -249,6 +268,9 @@ public class GameView extends View implements GameConstants {
 
 	/**
 	 * override the onKeyDown method to listen the key events
+	 * @param keyCode keycode
+	 * @param event key event
+	 * @return operation completed or not
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -353,9 +375,9 @@ public class GameView extends View implements GameConstants {
 	}
 
 	/**
-	 * @param shell
-	 *            judge if a shell hits a wall, then remove the wall from the
-	 *            barrierList
+	 * judge if a shell hits a wall, then remove the wall from the
+	 * barrierList
+	 * @param s shell
 	 */
 	public boolean juageHitWall(Shell s) {
 		int i = 0, j = 0;
