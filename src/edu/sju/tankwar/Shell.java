@@ -8,8 +8,8 @@ import android.graphics.Rect;
 import edu.sju.tankwar.math.*;
 
 /**
+ * Description: shell in the gameshell in the game
  * @file Shell.java
- * @brief shell in the game
  * @author team_f
  *  The team name Team F
    	The principal author's name : Suhao Qin

@@ -1,7 +1,11 @@
 package edu.sju.tankwar;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,12 +18,12 @@ import android.view.View;
 import edu.sju.tankwar.math.*;
 
 /**
- * @file GameView.java
- * @brief custom view for game main view
- * The team name Team F
- * The principal author's name : n/a
- * Acknowledgment of help from other team members, by name: n/a
- * @version 1.0
+ * Description: custom view for game main view
+ * 
+ * @file GameView.java The team name Team F The principal author's name : n/a
+ *       Acknowledgment of help from other team members, by name: n/a
+ * @version 1.1
+ * @Xiaohui modified by 11-21
  */
 public class GameView extends View implements GameConstants {
 	/** x,position of base */
@@ -27,7 +31,7 @@ public class GameView extends View implements GameConstants {
 	/** y,position of base */
 	private static int BASE_Y = 340;
 	/** height of the view */
-	protected int height; 
+	protected int height;
 	/** width of the view */
 	protected int width;
 	/** image source of the base */
@@ -38,14 +42,26 @@ public class GameView extends View implements GameConstants {
 	protected List<Tank> tankList = new ArrayList<Tank>();
 	/** list of barriers */
 	private List<Barrier> barriersList = new ArrayList<Barrier>();
-	/** 2D matrix.represents the point on the canvas.status:0:free£¬1:tank£¬2:barrier£¬3:base.*/																
+	/**
+	 * 2D matrix.represents the point on the
+	 * canvas.status:0:free£¬1:tank£¬2:barrier£¬3:base.
+	 */
 	public static int map[][];
 	/** row on the canvas */
 	private int row;
 	/** column on the canvas */
 	private int column;
 	/** mytank object */
-	public Tank myTank; 
+	public Tank myTank;
+	/** enemy tanks**/
+	private Random tankRandom=new Random();
+	/** how many enemy tanks is hit by myTank**/
+	private int hits = 0;
+	/** game Result dialog **/
+	private AlertDialog dialog;
+	
+	//private TableLayout msgPanel;
+	
 	/** game status. */
 	private String gameStatus = "STOP";
 	/** gameHandler */
@@ -61,6 +77,7 @@ public class GameView extends View implements GameConstants {
 
 	/**
 	 * constructor for GameView
+	 * 
 	 * @param context
 	 */
 	public GameView(Context context) {
@@ -71,7 +88,9 @@ public class GameView extends View implements GameConstants {
 
 	/**
 	 * constructor for GameView with attrs
-	 * @param context context
+	 * 
+	 * @param context
+	 *            context
 	 * @attrs attributes attributes
 	 */
 	public GameView(Context context, AttributeSet attrs) {
@@ -82,22 +101,38 @@ public class GameView extends View implements GameConstants {
 
 	}
 
+	public void setDialog(AlertDialog ad){
+		this.dialog=ad;
+	}
+
 	/**
 	 * override onDraw method which handles all the drawing operations
-	 * @param cavas for game drawing
+	 * 
+	 * @param cavas
+	 *            for game drawing
 	 */
 	@Override
 	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
+		//super.onDraw(canvas);
+		
 		canvas.drawBitmap(base, BASE_X, BASE_Y, null);// draw base
+		
 		int shellSize = shellsList.size();
 		for (int j = 0; j < shellSize; j++) {
 			shellsList.get(j).drawShell(canvas);
 		}
-		int i = barriersList.size();
+
+		int i=tankList.size();
+		for(int j=0;j<i;j++){
+			tankList.get(j).drawTank(canvas);
+		}
+		
+		i = barriersList.size();
+		
 		for (int j = 0; j < i; j++) {
 			barriersList.get(j).drawBarrier(canvas);
 		}
+		
 		myTank.drawTank(canvas);
 
 	}
@@ -126,45 +161,30 @@ public class GameView extends View implements GameConstants {
 		}
 		// init the map
 		// TODO implement the Map class,with all map operation within it.
-		for (int i = 5; i < 17; i++) {
-			for (int j = 2; j < 5; j++) {
+		for (int i = 10; i < 15; i++) {
+			for (int j = 3; j < 6; j++) {
 				if (map[i][j] == 2)
 					continue;
 				map[i][j] = 2;
 				barriersList.add(new Barrier(i, j));
 			}
-			for (int j = 7; j < 10; j++) {
+
+			for (int j = 15; j < 18; j++) {
 				if (map[i][j] == 2)
 					continue;
 				map[i][j] = 2;
 				barriersList.add(new Barrier(i, j));
 			}
-			for (int j = 12; j < 15; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-			for (int j = 17; j < 20; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-			for (int j = 22; j < 25; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
+
 			for (int j = 27; j < 30; j++) {
 				if (map[i][j] == 2)
 					continue;
 				map[i][j] = 2;
 				barriersList.add(new Barrier(i, j));
 			}
+
 		}
-		
+
 		for (int i = 20; i < 23; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (map[i][j] == 2)
@@ -179,17 +199,17 @@ public class GameView extends View implements GameConstants {
 				barriersList.add(new Barrier(i, j));
 			}
 		}
-		
+
 		for (int i = 18; i < 25; i++) {
-			for (int j = 12; j < 20; j++) {
+			for (int j = 14; j < 18; j++) {
 				if (map[i][j] == 2)
 					continue;
 				map[i][j] = 2;
 				barriersList.add(new Barrier(i, j));
 			}
 		}
-		
-		for (int i = 26; i < 35; i++) {
+
+		for (int i = 26; i < 31; i++) {
 			for (int j = 1; j < 4; j++) {
 				if (map[i][j] == 2)
 					continue;
@@ -240,16 +260,21 @@ public class GameView extends View implements GameConstants {
 				map[i][j] = 2;
 				barriersList.add(new Barrier(i, j));
 			}
-			
+
 		}
 	}
 
 	/**
-	 *	override onSize method,will be called when size of the view is changed
-	 *	@param w width
-	 *	@param h height
-	 *	@param oldw old width
-	 *	@param oldh old height
+	 * override onSize method,will be called when size of the view is changed
+	 * 
+	 * @param w
+	 *            width
+	 * @param h
+	 *            height
+	 * @param oldw
+	 *            old width
+	 * @param oldh
+	 *            old height
 	 */
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -268,8 +293,11 @@ public class GameView extends View implements GameConstants {
 
 	/**
 	 * override the onKeyDown method to listen the key events
-	 * @param keyCode keycode
-	 * @param event key event
+	 * 
+	 * @param keyCode
+	 *            keycode
+	 * @param event
+	 *            key event
 	 * @return operation completed or not
 	 */
 	@Override
@@ -358,7 +386,7 @@ public class GameView extends View implements GameConstants {
 					continue;
 				}
 			}
-			if (juageHitWall(shells)) {
+			if (judgeHitWall(shells)) {
 				if (GameFactory.shellsFactory.size() < SHELLS_FACTORY_SIZE) {
 					GameFactory.shellsFactory.push(shells);
 				}
@@ -368,6 +396,7 @@ public class GameView extends View implements GameConstants {
 			shells.move();// shell move
 		}
 		if (gameStatus.equals("START")) {
+			randomTank();
 			postInvalidate();
 			gameHandler.postDelayed(drawThread, 100);
 		}
@@ -375,11 +404,50 @@ public class GameView extends View implements GameConstants {
 	}
 
 	/**
-	 * judge if a shell hits a wall, then remove the wall from the
-	 * barrierList
-	 * @param s shell
+	 * draw enemy tanks
 	 */
-	public boolean juageHitWall(Shell s) {
+	public void randomTank(){
+		if(tankRandom.nextInt(100)%10==0){
+			if(tankList.size()<4&&map[tankIntalizeHeight/UNIT][tankIntalizeWidth/UNIT]==0){
+				tankList.add(new Tank((BitmapDrawable)getResources().getDrawable(R.drawable.tank_d),new Point(tankIntalizeWidth,tankIntalizeHeight), 1,DOWN,height,width));
+			}
+		}
+		Iterator<Tank> it=tankList.iterator();
+		while(it.hasNext()){
+			Tank t=it.next();
+			int r=tankRandom.nextInt(100)%10;
+			switch (r) {
+			case 0:
+				t.moveRight();
+				break;
+			case 1:
+				t.moveLeft();
+				break;
+			case 2:
+				t.moveUp();	
+				break;
+			case 3:
+				t.moveDown();
+				break;
+			case 4:
+				shellsList.add(t.fire());
+				break;
+			default:
+				t.move();
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * judge if a shell hits a wall, then remove the wall from the barrierList
+	 * judge if shell hits base, game over
+	 * judge if a shell hits tank invoke method to decide enemy tanks or mytank
+	 * @param s
+	 *            shell
+	 */
+	public boolean judgeHitWall(Shell s) {
 		int i = 0, j = 0;
 		if (s.direction == UP) {
 			i = (s.getPoint().getX() - s.radius) / UNIT;
@@ -395,7 +463,9 @@ public class GameView extends View implements GameConstants {
 			j = (s.getPoint().getY() - s.radius) / UNIT;
 		}
 		if (map[j][i] == 3) {
-			// TODO judge if hit the base
+			gameStatus="STOP";
+			dialog.show();
+			return false;
 		}
 		if (map[j][i] == 2) {
 			barriersList.remove(new Barrier(j, i));
@@ -403,9 +473,47 @@ public class GameView extends View implements GameConstants {
 			return true;
 		}
 		if (map[j][i] == 1) {
-			// TODO judge if hit a tank
+			return judgeHitTank(s);
 		}
 		return false;
 	}
+	
+	
+	/**
+	 * judge if a shell hits a tank
+	 * 
+	 * judge if shell hits myTank, game over
+	 * if my tank's shell hits one enemy tank, enemy tank removes
+	 * when 10 enemy tanks are killed, game over
+	 * @param s
+	 *            shell
+	 */
+	
+	public boolean judgeHitTank(Shell s){
+		Iterator<Tank> tIt;
+		if(myTank.hit(s)){
+			gameStatus="STOP";
+			dialog.show();
+			return false;
+		}
+		tIt=tankList.iterator();
+		while(tIt.hasNext()){
+			Tank t=tIt.next();
+			if(t.hit(s)){
+				hits++;				
+				tIt.remove();
+				if(hits == 10){
+					gameStatus="STOP";
+					dialog.show();
+					return false;
+				}
+				
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 
 }

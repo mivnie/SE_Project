@@ -1,12 +1,11 @@
 package edu.sju.tankwar.math;
 
 /**
+ * Description: game constants in the game
+ * 
  * @file GameConstants.java
- * @brief game constants in the game
- * @author 
- * The team name Team F
- * The principal author's name : Spoorthy
- * Acknowledgment of help from other team members, by name: n/a
+ * @author The team name Team F The principal author's name : Spoorthy
+ *         Acknowledgment of help from other team members, by name: n/a
  * @version 1.0
  */
 public interface GameConstants {

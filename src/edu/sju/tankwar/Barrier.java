@@ -7,12 +7,11 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 /**
+ * Description: barriers in the game
+ * 
  * @file Barrier.java
- * @brief barriers in the game
- * @author 
- *  The team name Team F
- *	The principal author's name : Yuanhai Shi
- *	Acknowledgment of help from other team members, by name: n/a
+ * @author The team name Team F The principal author's name : Yuanhai Shi
+ *         Acknowledgment of help from other team members, by name: n/a
  * @version 1.0
  */
 
@@ -21,16 +20,16 @@ public class Barrier implements GameConstants {
 	/** paint for barrier */
 	private Paint p;
 
-	/** inner Rectangle for barrier image*/
+	/** inner Rectangle for barrier image */
 	private Rect inRect;
 
-	/** outer Rectangle for barrier image*/
+	/** outer Rectangle for barrier image */
 	private Rect outRect;
 
-	/** row for barrier image*/
+	/** row for barrier image */
 	private int r;
 
-	/** column for barrier image*/
+	/** column for barrier image */
 	private int c;
 
 	/**
@@ -41,8 +40,11 @@ public class Barrier implements GameConstants {
 
 	/**
 	 * Barrier constructor
-	 * @param r row position of barrier on the map
-	 * @param c column position of barrier on the map
+	 * 
+	 * @param r
+	 *            row position of barrier on the map
+	 * @param c
+	 *            column position of barrier on the map
 	 */
 	public Barrier(int r, int c) {
 		this.r = r;
@@ -55,7 +57,9 @@ public class Barrier implements GameConstants {
 
 	/**
 	 * draw a barrier on the canvas
-	 * @param canvas game view canvas
+	 * 
+	 * @param canvas
+	 *            game view canvas
 	 */
 	public void drawBarrier(Canvas canvas) {
 		p.setStyle(Paint.Style.FILL);
@@ -65,10 +69,12 @@ public class Barrier implements GameConstants {
 		p.setStyle(Paint.Style.STROKE);
 		canvas.drawRect(outRect, p);
 	}
-	
+
 	/**
 	 * override the equals method
-	 * @param canvas game view canvas
+	 * 
+	 * @param canvas
+	 *            game view canvas
 	 */
 	@Override
 	public boolean equals(Object o) {
