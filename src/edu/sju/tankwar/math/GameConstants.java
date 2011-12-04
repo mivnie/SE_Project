@@ -12,9 +12,9 @@ public interface GameConstants {
 	/** unit size */
 	public static final int UNIT = 10;
 	/** tank initialize width */
-	public static final int tankIntalizeWidth = 30;
+	public static final int tankIntalizeWidth = 0;
 	/** tank initialize height */
-	public static final int tankIntalizeHeight = 50;
+	public static final int tankIntalizeHeight = 0;
 	/** left */
 	public static final int LEFT = 4;
 	/** right */

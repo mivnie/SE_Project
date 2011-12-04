@@ -24,5 +24,7 @@
             
         </activity>
         <activity android:label="@string/new_game_label" android:name=".NewGame"></activity>
+        <activity android:label="@string/stage_2_label" android:name="Stage2Activity"></activity>
+        <activity android:name="Stage3Activity" android:label="@string/stage_3_label"></activity>
     </application>
 </manifest>

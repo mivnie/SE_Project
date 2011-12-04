@@ -74,6 +74,9 @@ public class GameView extends View implements GameConstants {
 		}
 
 	};
+	
+	public boolean winGame;
+	
 
 	/**
 	 * constructor for GameView
@@ -82,8 +85,7 @@ public class GameView extends View implements GameConstants {
 	 */
 	public GameView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
-
+		winGame = false;
 	}
 
 	/**
@@ -94,11 +96,10 @@ public class GameView extends View implements GameConstants {
 	 * @attrs attributes attributes
 	 */
 	public GameView(Context context, AttributeSet attrs) {
-		// TODO Auto-generated constructor stub
 		super(context, attrs);
 		base = ((BitmapDrawable) getResources().getDrawable(R.drawable.dby))
 				.getBitmap();
-
+		winGame = false;
 	}
 
 	public void setDialog(AlertDialog ad){
@@ -141,6 +142,18 @@ public class GameView extends View implements GameConstants {
 	 * init the map
 	 */
 	public void initMap() {
+
+		GameMap gMap = new GameMap(row,column);
+		//map = gMap.map;
+			gMap.map1();
+		for(int i=0;i<row+1;i++){
+			for (int j = 0; j < column+1; j++) {
+				map[i][j] = gMap.map[i][j];
+				if (map[i][j] == 2)
+				barriersList.add(new Barrier(i, j));
+			}
+		}
+		
 		// init the base
 		for (int i = BASE_Y / UNIT; i < BASE_Y / UNIT + base.getHeight() / UNIT; i++) {
 			for (int j = BASE_X / UNIT; j < BASE_X / UNIT + base.getWidth()
@@ -158,109 +171,6 @@ public class GameView extends View implements GameConstants {
 				map[i][j] = 2;
 				barriersList.add(new Barrier(i, j));
 			}
-		}
-		// init the map
-		// TODO implement the Map class,with all map operation within it.
-		for (int i = 10; i < 15; i++) {
-			for (int j = 3; j < 6; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-
-			for (int j = 15; j < 18; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-
-			for (int j = 27; j < 30; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-
-		}
-
-		for (int i = 20; i < 23; i++) {
-			for (int j = 0; j < 8; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-			for (int j = 24; j < 32; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-		}
-
-		for (int i = 18; i < 25; i++) {
-			for (int j = 14; j < 18; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-		}
-
-		for (int i = 26; i < 31; i++) {
-			for (int j = 1; j < 4; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-
-			for (int j = 6; j < 9; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-
-			for (int j = 12; j < 14; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-
-			if (i >= 28 && i <= 31) {
-				for (int j = 14; j < 18; j++) {
-					if (map[i][j] == 2)
-						continue;
-					map[i][j] = 2;
-					barriersList.add(new Barrier(i, j));
-				}
-			}
-
-			for (int j = 18; j < 20; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-
-			for (int j = 23; j < 26; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-
-			for (int j = 28; j < 31; j++) {
-				if (map[i][j] == 2)
-					continue;
-				map[i][j] = 2;
-				barriersList.add(new Barrier(i, j));
-			}
-
 		}
 	}
 
@@ -289,6 +199,8 @@ public class GameView extends View implements GameConstants {
 		BASE_Y = row * UNIT - base.getHeight();
 		map = new int[row + 1][column + 1];
 		initMap();
+		//gameHandler.post(drawThread);
+
 	}
 
 	/**
@@ -396,6 +308,7 @@ public class GameView extends View implements GameConstants {
 			shells.move();// shell move
 		}
 		if (gameStatus.equals("START")) {
+			 
 			randomTank();
 			postInvalidate();
 			gameHandler.postDelayed(drawThread, 100);
@@ -407,11 +320,17 @@ public class GameView extends View implements GameConstants {
 	 * draw enemy tanks
 	 */
 	public void randomTank(){
+		//long dur = System.currentTimeMillis()- begin;
+		//TODO: Make enemy tanks more smart
 		if(tankRandom.nextInt(100)%10==0){
-			if(tankList.size()<4&&map[tankIntalizeHeight/UNIT][tankIntalizeWidth/UNIT]==0){
+			if(tankList.size()<8 &&map[tankIntalizeHeight/UNIT][tankIntalizeWidth/UNIT]==0){
 				tankList.add(new Tank((BitmapDrawable)getResources().getDrawable(R.drawable.tank_d),new Point(tankIntalizeWidth,tankIntalizeHeight), 1,DOWN,height,width));
+				tankList.add(new Tank((BitmapDrawable)getResources().getDrawable(R.drawable.tank_d),new Point(tankIntalizeWidth+130,tankIntalizeHeight), 1,DOWN,height,width));
+				tankList.add(new Tank((BitmapDrawable)getResources().getDrawable(R.drawable.tank_d),new Point(tankIntalizeWidth+270,tankIntalizeHeight), 1,DOWN,height,width));
 			}
 		}
+		
+
 		Iterator<Tank> it=tankList.iterator();
 		while(it.hasNext()){
 			Tank t=it.next();
@@ -424,7 +343,8 @@ public class GameView extends View implements GameConstants {
 				t.moveLeft();
 				break;
 			case 2:
-				t.moveUp();	
+				//t.moveUp();
+				t.moveDown();
 				break;
 			case 3:
 				t.moveDown();
@@ -502,8 +422,10 @@ public class GameView extends View implements GameConstants {
 			if(t.hit(s)){
 				hits++;				
 				tIt.remove();
-				if(hits == 10){
+				if(hits == 1){
 					gameStatus="STOP";
+					winGame = true;
+					dialog.setMessage("Mission completed,Press Center Button To Next Stage!");
 					dialog.show();
 					return false;
 				}

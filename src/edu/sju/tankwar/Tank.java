@@ -42,6 +42,9 @@ public class Tank implements GameConstants {
 	/** column of the tank image on the canvas */
 	private int row;
 
+	public static int stage=1;
+	
+	public int map[][] = new int[column+1][row+1];
 	/**
 	 * non-param constructor
 	 */
@@ -179,7 +182,13 @@ public class Tank implements GameConstants {
 
 		for (int i = bR; i < bR + row; i++) {
 			for (int j = bC; j < bC + column; j++) {
-				GameView.map[i][j] = status;
+				if(stage==1){
+					GameView.map[i][j] = status;
+				}else if(stage ==2){
+					GameViewStage2.map[i][j] = status;
+				}else {
+					GameViewStage3.map[i][j] = status;
+				}
 			}
 		}
 	}
@@ -343,24 +352,31 @@ public class Tank implements GameConstants {
 			return false;
 		}
 		boolean status = false;
+		if(stage == 1){
+			map = GameView.map;
+		}else if(stage == 2){
+			map = GameViewStage2.map;
+		}else {
+			map = GameViewStage3.map;
+		}
 		if (direction == UP) {// when tank moves up
 			if (centerPoint.getY() - speed >= 0) {
-				if (GameView.map[(centerPoint.getY() - speed) / UNIT][centerPoint
+				if (map[(centerPoint.getY() - speed) / UNIT][centerPoint
 						.getX() / UNIT] == 0
-						&& GameView.map[(centerPoint.getY() - speed) / UNIT][(centerPoint
+						&& map[(centerPoint.getY() - speed) / UNIT][(centerPoint
 								.getX() + UNIT) / UNIT] == 0
-						&& GameView.map[(centerPoint.getY() - speed) / UNIT][(centerPoint
+						&& map[(centerPoint.getY() - speed) / UNIT][(centerPoint
 								.getX() + 2 * UNIT) / UNIT] == 0) {
 					status = true;
 				}
 			}
 		} else if (direction == DOWN) {
 			if (centerPoint.getY() + tankBmp.getHeight() + speed < screenHeight) {
-				if (GameView.map[(centerPoint.getY() + 2 * UNIT + speed) / UNIT][centerPoint
+				if (map[(centerPoint.getY() + 2 * UNIT + speed) / UNIT][centerPoint
 						.getX() / UNIT] == 0
-						&& GameView.map[(centerPoint.getY() + 2 * UNIT + speed)
+						&& map[(centerPoint.getY() + 2 * UNIT + speed)
 								/ UNIT][(centerPoint.getX() + UNIT) / UNIT] == 0
-						&& GameView.map[(centerPoint.getY() + 2 * UNIT + speed)
+						&& map[(centerPoint.getY() + 2 * UNIT + speed)
 								/ UNIT][(centerPoint.getX() + 2 * UNIT) / UNIT] == 0) {
 				status = true;
 				}
@@ -368,24 +384,24 @@ public class Tank implements GameConstants {
 		} else if (direction == LEFT) {
 
 			if (centerPoint.getX() - speed >= 0) {
-				if (GameView.map[centerPoint.getY() / UNIT][(centerPoint.getX() - speed)
+				if (map[centerPoint.getY() / UNIT][(centerPoint.getX() - speed)
 						/ UNIT] == 0
-						&& GameView.map[(centerPoint.getY() + UNIT) / UNIT][(centerPoint
+						&& map[(centerPoint.getY() + UNIT) / UNIT][(centerPoint
 								.getX() - speed) / UNIT] == 0
-						&& GameView.map[(centerPoint.getY() + 2 * UNIT) / UNIT][(centerPoint
+						&& map[(centerPoint.getY() + 2 * UNIT) / UNIT][(centerPoint
 								.getX() - speed) / UNIT] == 0) {
 					status = true;
 				}
 			}
 		} else if (direction == RIGHT) {
 			if (centerPoint.getX() + tankBmp.getWidth() + speed < screenWidth) {
-				if (GameView.map[centerPoint.getY() / UNIT][(centerPoint.getX()
+				if (map[centerPoint.getY() / UNIT][(centerPoint.getX()
 						+ 2 * UNIT + speed)
 						/ UNIT] == 0
-						&& GameView.map[(centerPoint.getY() + UNIT) / UNIT][(centerPoint
+						&& map[(centerPoint.getY() + UNIT) / UNIT][(centerPoint
 								.getX() + 2 * UNIT + speed)
 								/ UNIT] == 0
-						&& GameView.map[(centerPoint.getY() + 2 * UNIT) / UNIT][(centerPoint
+						&& map[(centerPoint.getY() + 2 * UNIT) / UNIT][(centerPoint
 								.getX() + 2 * UNIT + speed)
 								/ UNIT] == 0) {
 					status = true;

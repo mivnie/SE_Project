@@ -27,4 +27,6 @@
            use up down left right button to move the tank \n
            use enter button to shoot
     </string>
+    <string name="stage_2_label">Stage 2</string>
+    <string name="stage_3_label">Stage 3</string>
 </resources>

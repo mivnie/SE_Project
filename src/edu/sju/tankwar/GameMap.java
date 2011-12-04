@@ -35,7 +35,138 @@ public class GameMap {
 	/**
 	 * init the map
 	 */
-	public void init() {
+	public void map1() {
 		// TODO init the map
+		for (int i = 10; i < 15; i++) {
+			for (int j = 3; j < 6; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+			for (int j = 15; j < 18; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+			for (int j = 27; j < 30; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+		}
+
+		for (int i = 20; i < 23; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+			for (int j = 24; j < 32; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+		}
+
+		for (int i = 18; i < 25; i++) {
+			for (int j = 14; j < 18; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+		}
+
+		for (int i = 26; i < 31; i++) {
+			for (int j = 1; j < 4; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+			for (int j = 6; j < 9; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+			for (int j = 12; j < 14; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+			if (i >= 28 && i <= 31) {
+				for (int j = 14; j < 18; j++) {
+					if (map[i][j] == 2)
+						continue;
+					map[i][j] = 2;
+				}
+			}
+
+			for (int j = 18; j < 20; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+			for (int j = 23; j < 26; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+			for (int j = 28; j < 31; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+		}
 	}
+	
+	public void map2() {
+		for (int i = 10; i < 15; i++) {
+			for (int j = 3; j < 6; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+			for (int j = 15; j < 18; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+			for (int j = 27; j < 30; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+		}
+	}
+	
+	public void map3() {
+		for (int i = 10; i < 15; i++) {
+			for (int j = 3; j < 6; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+			for (int j = 15; j < 18; j++) {
+				if (map[i][j] == 2)
+					continue;
+				map[i][j] = 2;
+			}
+
+		}
+	}
+	
+	
+	
 }
