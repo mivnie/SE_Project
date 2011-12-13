@@ -5,6 +5,7 @@ package edu.sju.tankwar;
  * @file GameMap.java
  * @author Team_F  Yuanhai Shi  
  * @version 1.2
+
  * @Xiaohui Modified by 12-05 on maps init
  * 
  */
