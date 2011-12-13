@@ -7,6 +7,7 @@ package edu.sju.tankwar.math;
  * @author The team name Team F The principal author's name : Spoorthy
  *         Acknowledgment of help from other team members, by name: n/a
  * @version 1.0
+ * @Xiaohui modified on 12-04
  */
 public interface GameConstants {
 	/** unit size */
@@ -27,5 +28,10 @@ public interface GameConstants {
 	public static final int MYTANK = 0;
 	/** shell factory size */
 	public static final int SHELLS_FACTORY_SIZE = 10;
+	
+	/** constant Int for game lose ,used for result message**/
+	public static final int DIALOG_LOSE_ID = 0;
+	 /** constant Int for game win ,used for result message**/
+	public static final int DIALOG_WIN_ID = 1;
 
 }

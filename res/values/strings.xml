@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- strings used in main menu view,about view and help view  Team F Xiaohui-->
 <resources>
     <string name="hello">Tank War Game</string>
     <string name="app_name">Tank War Game</string>

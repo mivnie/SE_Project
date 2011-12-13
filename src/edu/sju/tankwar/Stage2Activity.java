@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 
 /**
@@ -34,13 +35,18 @@ public class Stage2Activity extends Activity {
 						startActivity(i1);
 					}else {
 						finish();
-						Tank.stage = 2;
+						/*Tank.stage = 2;
 						Intent i1 = new Intent();
 						i1.setClass(Stage2Activity.this, Stage2Activity.class);
-						startActivity(i1);
+						startActivity(i1);*/
 					}
 
 				}
+				else if(keyCode==KeyEvent.KEYCODE_BACK){
+					Log.i("System.out", "GAME OVER!");
+					finish();
+				}
+			
 				
 				return false;
 			}

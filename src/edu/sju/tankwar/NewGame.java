@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnKeyListener;
 import android.os.Bundle;
+
+import android.util.Log;
 import android.view.KeyEvent;
 
 /**
@@ -14,9 +16,11 @@ import android.view.KeyEvent;
  * @file NewGame.java
  * @author 
  *  The team name Team F
- *  The principal author's name : Xiaohui Liu Update
  *  Acknowledgment of help from other team members, by name: n/a
  * @version 1.1
+ * @author Xiaohui Updated by 11-24
+ * @version 1.2
+ * @author Yuanhai Updated by 12-3
    
  */
 public class NewGame extends Activity {
@@ -28,11 +32,13 @@ public class NewGame extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.game_layout);
 		GameView gameView = (GameView) findViewById(R.id.tankwar);
-		gameView.setDialog(new AlertDialog.Builder(this).setMessage("You lose, Press Back Button to Restart").setOnKeyListener(new OnKeyListener() {
+		gameView.setDialog(new AlertDialog.Builder(this).setMessage("GAME OVER! ").setOnKeyListener(new OnKeyListener() {
 			
 			@Override
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+				
 				if(keyCode==KeyEvent.KEYCODE_DPAD_CENTER){
+					
 					GameView gameView = (GameView) findViewById(R.id.tankwar);
 					if(gameView.winGame){
 						finish();
@@ -42,13 +48,17 @@ public class NewGame extends Activity {
 						startActivity(i1);
 					}else {
 						finish();
-						Tank.stage = 1;
+						/*Tank.stage = 1;
 						Intent i1 = new Intent();
 						i1.setClass(NewGame.this, NewGame.class);
-						startActivity(i1);
+						startActivity(i1);*/
 					}
 
 				}
+				else if(keyCode==KeyEvent.KEYCODE_BACK){
+						Log.i("System.out", "GAME OVER!");
+						finish();
+					}
 				
 				return false;
 			}

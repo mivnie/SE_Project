@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
+import android.util.AndroidRuntimeException;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,12 +21,21 @@ import edu.sju.tankwar.math.*;
 /**
  * Description: custom view for game main view
  * 
- * @file GameView.java The team name Team F The principal author's name : n/a
+ * @file GameView.java 
+ *       
  *       Acknowledgment of help from other team members, by name: n/a
- * @version 1.1
- * @Xiaohui modified by 11-21
+ * @version 1.2
+ * @author Xiaohui modified by 11-21 added enemy tanks function randomTank(),
+ *                            added judgeHitTank function 
+ *                            added logic judging for win or lose. 
+ *                            added single message showing    
+ *                                                  
+ * @author Yuanhai modified by 12-03 made enemy tanks smarter.
+ *                            added message showing for game win or lose 
+ *                            
+ * @author Xiaohui modified by 12-05 modified message showing: added onCreateDialog method for alertdialog                           
  */
-public class GameView extends View implements GameConstants {
+public class GameView extends View implements GameConstants   {
 	/** x,position of base */
 	private static int BASE_X = 160;
 	/** y,position of base */
@@ -75,7 +85,9 @@ public class GameView extends View implements GameConstants {
 
 	};
 	
+	/**status of game  win: true**/
 	public boolean winGame;
+	public boolean dialogShowStatus= false;
 	
 
 	/**
@@ -213,7 +225,7 @@ public class GameView extends View implements GameConstants {
 	 * @return operation completed or not
 	 */
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	public boolean onKeyDown(int keyCode, KeyEvent event)throws AndroidRuntimeException {
 		Log.d("TAG", "activity onKeyDown");
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_DPAD_RIGHT:
@@ -241,7 +253,13 @@ public class GameView extends View implements GameConstants {
 				gameStatus = "START";
 				gameHandler.post(drawThread);
 			} else {
-				shellsList.add(myTank.fire());
+				if(!dialogShowStatus)
+					
+						shellsList.add(myTank.fire());
+					
+
+				else
+					gameStatus.equals("STOP");
 			}
 			break;
 		default:
@@ -323,13 +341,16 @@ public class GameView extends View implements GameConstants {
 		//long dur = System.currentTimeMillis()- begin;
 		//TODO: Make enemy tanks more smart
 		if(tankRandom.nextInt(100)%10==0){
-			if(tankList.size()<8 &&map[tankIntalizeHeight/UNIT][tankIntalizeWidth/UNIT]==0){
+			if(tankList.size()<6 &&map[tankIntalizeHeight/UNIT][tankIntalizeWidth/UNIT]==0){
 				tankList.add(new Tank((BitmapDrawable)getResources().getDrawable(R.drawable.tank_d),new Point(tankIntalizeWidth,tankIntalizeHeight), 1,DOWN,height,width));
 				tankList.add(new Tank((BitmapDrawable)getResources().getDrawable(R.drawable.tank_d),new Point(tankIntalizeWidth+130,tankIntalizeHeight), 1,DOWN,height,width));
 				tankList.add(new Tank((BitmapDrawable)getResources().getDrawable(R.drawable.tank_d),new Point(tankIntalizeWidth+270,tankIntalizeHeight), 1,DOWN,height,width));
 			}
 		}
 		
+		// for adding the chance of moveDown
+		Random rand = new Random(); 
+		int pickedNumber = rand.nextInt(3) + 1; 
 
 		Iterator<Tank> it=tankList.iterator();
 		while(it.hasNext()){
@@ -337,14 +358,22 @@ public class GameView extends View implements GameConstants {
 			int r=tankRandom.nextInt(100)%10;
 			switch (r) {
 			case 0:
-				t.moveRight();
+				if(pickedNumber == 1)
+					t.moveRight();
+				else
+					t.moveDown();
 				break;
 			case 1:
-				t.moveLeft();
+				if(pickedNumber == 1)
+					t.moveLeft();
+				else
+					t.moveDown();
 				break;
 			case 2:
-				//t.moveUp();
-				t.moveDown();
+				if(pickedNumber == 1)
+					t.moveUp();
+				else
+					t.moveDown();
 				break;
 			case 3:
 				t.moveDown();
@@ -384,7 +413,9 @@ public class GameView extends View implements GameConstants {
 		}
 		if (map[j][i] == 3) {
 			gameStatus="STOP";
+			onCreateDialog(DIALOG_LOSE_ID);
 			dialog.show();
+			dialogShowStatus = true;
 			return false;
 		}
 		if (map[j][i] == 2) {
@@ -402,9 +433,9 @@ public class GameView extends View implements GameConstants {
 	/**
 	 * judge if a shell hits a tank
 	 * 
-	 * judge if shell hits myTank, game over
+	 * judge if shell hits myTank, player lose,game over
 	 * if my tank's shell hits one enemy tank, enemy tank removes
-	 * when 10 enemy tanks are killed, game over
+	 * when 10 enemy tanks are killed, player win the game,game over
 	 * @param s
 	 *            shell
 	 */
@@ -413,7 +444,9 @@ public class GameView extends View implements GameConstants {
 		Iterator<Tank> tIt;
 		if(myTank.hit(s)){
 			gameStatus="STOP";
+			onCreateDialog(DIALOG_LOSE_ID);
 			dialog.show();
+			dialogShowStatus = true;
 			return false;
 		}
 		tIt=tankList.iterator();
@@ -425,8 +458,9 @@ public class GameView extends View implements GameConstants {
 				if(hits == 1){
 					gameStatus="STOP";
 					winGame = true;
-					dialog.setMessage("Mission completed,Press Center Button To Next Stage!");
+					onCreateDialog(DIALOG_WIN_ID);
 					dialog.show();
+					dialogShowStatus = true;
 					return false;
 				}
 				
@@ -436,6 +470,31 @@ public class GameView extends View implements GameConstants {
 		
 		return false;
 	}
-	
+	/**
+	 * new added for iteration 2
+	 * dialog display for game winning or losing.
+	 * parse in id 0 or 1
+	 * 0 for lose
+	 * 1 for win
+	 * 
+	 * @param id
+	 *            AlertDialog
+	 */
+	protected AlertDialog onCreateDialog(int id) {
+	    switch(id) {
+	    case DIALOG_WIN_ID:
+	        // do the work to define the win Dialog
+	    	//TODO need modification on message
+	    	dialog.setMessage("Mission Compeleted! Press center button to next Stage");
+	        break;
+	    case DIALOG_LOSE_ID:
+	        // do the work to define the game lose Dialog
+	    	dialog.setMessage("YOU LOSE! GAME OVER");
+	        break;
+	    default:
+	        dialog = null;
+	    }
+	    return dialog;
+	}
 
 }

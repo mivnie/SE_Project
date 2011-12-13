@@ -18,12 +18,13 @@ import android.view.View;
 import edu.sju.tankwar.math.*;
 
 /**
- * Description: custom view for game main view
+ * Description: custom view of game main view for stage 2
  * 
- * @file GameView.java The team name Team F The principal author's name : n/a
- *       Acknowledgment of help from other team members, by name: n/a
- * @version 1.1
- * @Xiaohui modified by 11-21
+ * @file GameView.java The team name Team F The principal author's name : Yuanhai Shi
+ *       
+ *  
+ * @version 1.2
+ * @author Yuanhai  Acknowledgment of help from other team members, by name: none
  */
 public class GameViewStage2 extends View implements GameConstants {
 	/** x,position of base */
@@ -75,6 +76,7 @@ public class GameViewStage2 extends View implements GameConstants {
 
 	};
 	
+	/** record game win or lose status**/
 	public boolean winGame;
 	
 
@@ -156,6 +158,8 @@ public class GameViewStage2 extends View implements GameConstants {
 				barriersList.add(new Barrier(i, j));
 			}
 		}
+		
+		
 		
 		// init the base
 		for (int i = BASE_Y / UNIT; i < BASE_Y / UNIT + base.getHeight() / UNIT; i++) {
@@ -310,6 +314,7 @@ public class GameViewStage2 extends View implements GameConstants {
 			}
 			shells.move();// shell move
 		}
+		// start the game
 		if (gameStatus.equals("START")) {
 			randomTank();
 			postInvalidate();
@@ -325,13 +330,16 @@ public class GameViewStage2 extends View implements GameConstants {
 		
 		//TODO: Make enemy tanks more smart
 		if(tankRandom.nextInt(100)%10==0){
-			if(tankList.size()<8&&map[tankIntalizeHeight/UNIT][tankIntalizeWidth/UNIT]==0){
+			if(tankList.size()<6&&map[tankIntalizeHeight/UNIT][tankIntalizeWidth/UNIT]==0){
 				tankList.add(new Tank((BitmapDrawable)getResources().getDrawable(R.drawable.tank_d),new Point(tankIntalizeWidth,tankIntalizeHeight), 1,DOWN,height,width));
 				tankList.add(new Tank((BitmapDrawable)getResources().getDrawable(R.drawable.tank_d),new Point(tankIntalizeWidth+130,tankIntalizeHeight), 1,DOWN,height,width));
 				tankList.add(new Tank((BitmapDrawable)getResources().getDrawable(R.drawable.tank_d),new Point(tankIntalizeWidth+270,tankIntalizeHeight), 1,DOWN,height,width));
 			}
 		}
 		
+		// for adding the chance of moveDown
+		Random rand = new Random(); 
+		int pickedNumber = rand.nextInt(4) + 1; 
 
 		Iterator<Tank> it=tankList.iterator();
 		while(it.hasNext()){
@@ -339,10 +347,17 @@ public class GameViewStage2 extends View implements GameConstants {
 			int r=tankRandom.nextInt(100)%10;
 			switch (r) {
 			case 0:
-				t.moveRight();
+				if(pickedNumber == 1)
+					t.moveRight();
+				else
+					t.moveDown();
 				break;
 			case 1:
-				t.moveLeft();
+				if(pickedNumber == 1)
+
+					t.moveLeft();
+				else 
+					t.moveDown();
 				break;
 			case 2:
 				//t.moveUp();
@@ -384,8 +399,10 @@ public class GameViewStage2 extends View implements GameConstants {
 			i = (s.getPoint().getX() - s.radius) / UNIT;
 			j = (s.getPoint().getY() - s.radius) / UNIT;
 		}
+		// shell hits base 
 		if (map[j][i] == 3) {
 			gameStatus="STOP";
+			onCreateDialog(DIALOG_LOSE_ID);
 			dialog.show();
 			return false;
 		}
@@ -406,7 +423,7 @@ public class GameViewStage2 extends View implements GameConstants {
 	 * 
 	 * judge if shell hits myTank, game over
 	 * if my tank's shell hits one enemy tank, enemy tank removes
-	 * when 10 enemy tanks are killed, game over
+	 * when 10 enemy tanks are killed, show winning message
 	 * @param s
 	 *            shell
 	 */
@@ -415,6 +432,7 @@ public class GameViewStage2 extends View implements GameConstants {
 		Iterator<Tank> tIt;
 		if(myTank.hit(s)){
 			gameStatus="STOP";
+			onCreateDialog(DIALOG_LOSE_ID);
 			dialog.show();
 			return false;
 		}
@@ -427,7 +445,7 @@ public class GameViewStage2 extends View implements GameConstants {
 				if(hits == 1){
 					gameStatus="STOP";
 					winGame = true;
-					dialog.setMessage("Mission completed,Press Center Button To Next Stage!");
+					onCreateDialog(DIALOG_WIN_ID);
 					dialog.show();
 					return false;
 				}
@@ -438,6 +456,30 @@ public class GameViewStage2 extends View implements GameConstants {
 		
 		return false;
 	}
-	
+	/**
+	 * new added for iteration 2
+	 * dialog display for game winning or losing.
+	 * parse in id 0 or 1
+	 * 0 for lose
+	 * 1 for win
+	 * 
+	 * @param id
+	 *            AlertDialog
+	 */
+	protected AlertDialog onCreateDialog(int id) {
+	    switch(id) {
+	    case DIALOG_WIN_ID:
+	        // do the work to define the win Dialog
+	    	dialog.setMessage("Mission Compeleted! Press center button to next Stage");
+	        break;
+	    case DIALOG_LOSE_ID:
+	        // do the work to define the game lose Dialog
+	    	dialog.setMessage("YOU LOSE! GAME OVER");
+	        break;
+	    default:
+	        dialog = null;
+	    }
+	    return dialog;
+	}
 
 }

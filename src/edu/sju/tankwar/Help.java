@@ -7,7 +7,7 @@ import android.os.*;
  * Description: activity when clicking the help button
  * 
  * @file Help.java
- * @author The team name Team F The principal author's name : XiaohuiLiu
+ * @author The team name Team F The principal author's name : Suhao qin
  *         Acknowledgment of help from other team members, by name: n/a
  * @version 1.0
  */
